@@ -1,0 +1,5 @@
+export const ADMIN_AUTH_URL = '/api/v1/admin-auth'
+export const ADMINS_URL = '/api/v1/admins'
+export const COURSES_URL = '/api/v1/courses'
+export const SYLLABUSES_URL = '/api/v1/syllabuses'
+export const TOPICS_URL = '/api/v1/topics'
