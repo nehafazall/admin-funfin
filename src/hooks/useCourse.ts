@@ -33,7 +33,7 @@ export const useCourse = () => {
     const { data, isPending, isFetched, error } = useQueryData(
         ["courses", skip, limit],
         () => getCourses(session?.user?.token, skip, limit),
-        { enabled: true }
+        { enabled: !!session?.user?.token }
     )
 
     useEffect(() => {

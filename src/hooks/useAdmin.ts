@@ -28,7 +28,7 @@ export const useUsers = () => {
     const { data, isPending, isFetched, error } = useQueryData(
         ["users", skip, limit],
         () => getAdmins(session?.user?.token, skip, limit),
-        { enabled: true }
+        { enabled: !!session?.user?.token }
     )
     useEffect(() => {
         if (error) toast.error((error as Error).message);

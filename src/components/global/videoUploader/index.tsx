@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Upload, X, Loader2, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ export default function VideoUploader({
   onUploadFile,
   className,
 }: VideoUploaderProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -114,17 +115,17 @@ export default function VideoUploader({
                 Supported: MP4, MOV, AVI, WebM (max 500MB)
               </p>
               <Input
+                ref={fileInputRef}
                 type="file"
                 accept="video/*"
                 onChange={handleFileChange}
                 className="hidden"
-                id="video-upload"
               />
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => document.getElementById("video-upload")?.click()}
+                onClick={() => fileInputRef.current?.click()}
               >
                 Select Video
               </Button>

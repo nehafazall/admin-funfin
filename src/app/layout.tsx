@@ -4,11 +4,13 @@ import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Lato } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/lib/auth.config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CLT trading Academy",
-  description: "CLT trading Academy",
+  title: "FUNFIN ADMIN",
+  description: "FUNFIN ADMIN",
 };
 
 const lato = Lato({
@@ -17,11 +19,13 @@ const lato = Lato({
   display: "swap",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authConfig);
+
   return (
     <html lang="en" className={`${lato.className}`} suppressHydrationWarning>
       <head>
@@ -33,7 +37,7 @@ export default function RootLayout({
       <body suppressHydrationWarning className={"overflow-hidden"}>
         <NextTopLoader color="red" shadow="0 0 10px 5px red" showSpinner={false} />
         <NuqsAdapter>
-          <Providers session={null}>
+          <Providers session={session}>
             <Toaster theme="light"/>
             {children}
           </Providers>

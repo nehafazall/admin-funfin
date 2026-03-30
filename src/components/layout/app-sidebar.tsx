@@ -30,6 +30,7 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   superAdminNavItems,
   adminNavItems,
@@ -62,7 +63,7 @@ export const company = {
 };
 
 export default function AppSidebar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
   const navItems = userNavItems(session?.user?.role || "");
   const { state, isMobile } = useSidebar();
@@ -90,7 +91,13 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>Overview</SidebarGroupLabel>
           <SidebarMenu>
-            {navItems.map((item: any) => {
+            {status === "loading" ? (
+              <div className="space-y-2 px-2 py-1">
+                {[1, 2, 3].map((i) => (
+                  <Skeleton key={i} className="h-8 w-full rounded-md" />
+                ))}
+              </div>
+            ) : navItems.map((item: any) => {
               const Icon = item.icon
                 ? Icons[item.icon as keyof typeof Icons]
                 : Icons.logo;
