@@ -1,5 +1,6 @@
 export interface ITopic {
-    _id: string;
+    id: string;
+    _id: string; // alias kept for compatibility
     syllabusId: string;
     courseId: string;
     title: string;

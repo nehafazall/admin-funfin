@@ -1,11 +1,11 @@
 export interface ISyllabusTopicRef {
-    _id: string;
     topicId: string;
     progress: number;
 }
 
 export interface ISyllabus {
-    _id: string;
+    id: string;
+    _id: string; // alias kept for compatibility
     courseId: string;
     title: string;
     moduleLabel: string;

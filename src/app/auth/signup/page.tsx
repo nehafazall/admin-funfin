@@ -14,9 +14,9 @@ export default function SignUpPage({ className }: { className?: string }) {
                 <div className="flex h-8 w-8 items-center justify-center rounded-md">
                   <GalleryVerticalEnd className="size-6" />
                 </div>
-                <span className="sr-only">CLT ADMIN</span>
+                <span className="sr-only">FUNFIN</span>
               </a>
-              <h1 className="text-xl font-bold">Welcome to CLT ADMIN</h1>
+              <h1 className="text-xl font-bold">Welcome to FUNFIN</h1>
               <div className="text-center text-sm text-muted-foreground">
                  SignUp Here
               </div>

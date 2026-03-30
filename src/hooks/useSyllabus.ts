@@ -62,7 +62,7 @@ export const useEditSyllabus = (data: ISyllabus) => {
 
     const { mutate, isPending, isSuccess } = useMutationData(
         ["editSyllabus"],
-        (values: Partial<syllabusSchemaType>) => updateSyllabus(data._id, values, session?.user?.token),
+        (values: Partial<syllabusSchemaType>) => updateSyllabus(data.id || data._id, values, session?.user?.token),
         `syllabuses-${data.courseId}`,
         () => toast.success("Syllabus updated successfully")
     )

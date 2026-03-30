@@ -17,10 +17,10 @@ export default function LoginPage({ className }: { className?: string }) {
                 <div className="flex h-8 w-8 items-center justify-center rounded-md">
                   <GalleryVerticalEnd className="size-6" />
                 </div>
-                <span className="sr-only">CLT TRADING ACADEMY</span>
+                <span className="sr-only">FUNFIN LMS</span>
               </a>
               <h1 className="text-xl font-bold">
-                Welcome to CLT TRADING ACADEMY
+                Welcome to FUNFIN LMS
               </h1>
               <div className="text-center text-sm text-muted-foreground">
                 Login Here

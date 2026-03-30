@@ -22,8 +22,8 @@ const CourseContent = ({ course }: Props) => {
   const [selectedSyllabusId, setSelectedSyllabusId] = useState<string | null>(null);
   const [createTopic, setCreateTopic] = useState(false);
 
-  const { syllabuses } = useSyllabus(course._id);
-  const selectedSyllabus = syllabuses.find((s) => s._id === selectedSyllabusId);
+  const { syllabuses } = useSyllabus(course.id || (course as any)._id);
+  const selectedSyllabus = syllabuses.find((s) => (s.id || s._id) === selectedSyllabusId);
 
   return (
     <div className="space-y-4 py-2">
@@ -70,11 +70,11 @@ const CourseContent = ({ course }: Props) => {
             <div className="space-y-2">
               {syllabuses.map((s) => (
                 <button
-                  key={s._id}
+                  key={s.id || s._id}
                   type="button"
-                  onClick={() => setSelectedSyllabusId(s._id)}
+                  onClick={() => setSelectedSyllabusId(s.id || s._id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg border text-left transition-colors ${
-                    selectedSyllabusId === s._id
+                    selectedSyllabusId === (s.id || s._id)
                       ? "border-primary bg-primary/10"
                       : "border-border hover:border-primary/50 hover:bg-muted/50"
                   }`}
@@ -106,7 +106,7 @@ const CourseContent = ({ course }: Props) => {
                 <Plus className="h-4 w-4 mr-1" /> Add Topic
               </Button>
             </div>
-            <TopicList syllabusId={selectedSyllabus._id} courseId={course._id} />
+            <TopicList syllabusId={selectedSyllabus.id || selectedSyllabus._id} courseId={course.id || (course as any)._id} />
           </TabsContent>
         )}
       </Tabs>
@@ -118,7 +118,7 @@ const CourseContent = ({ course }: Props) => {
         open={createSyllabus}
         closeFn={() => setCreateSyllabus(false)}
       >
-        <SyllabusForm courseId={course._id} />
+        <SyllabusForm courseId={course.id || (course as any)._id} />
       </SheetReuse>
 
       {/* Create Topic Sheet */}
@@ -129,7 +129,7 @@ const CourseContent = ({ course }: Props) => {
           open={createTopic}
           closeFn={() => setCreateTopic(false)}
         >
-          <TopicForm syllabusId={selectedSyllabus._id} courseId={course._id} />
+          <TopicForm syllabusId={selectedSyllabus.id || selectedSyllabus._id} courseId={course.id || (course as any)._id} />
         </SheetReuse>
       )}
     </div>

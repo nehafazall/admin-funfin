@@ -33,7 +33,7 @@ import {
 import {
   superAdminNavItems,
   adminNavItems,
-  customerServiceNavItems,
+  counselorNavItems,
   userNavItems,
 } from "@/constants/data";
 import {
@@ -56,7 +56,7 @@ import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
 
 export const company = {
-  name: "CLT ADMIN",
+  name: "FUNFIN ADMIN",
   logo: GalleryVerticalEnd,
   plan: "Enterprise",
 };

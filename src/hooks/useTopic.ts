@@ -62,7 +62,7 @@ export const useEditTopic = (data: ITopic) => {
 
     const { mutate, isPending, isSuccess } = useMutationData(
         ["editTopic"],
-        (values: Partial<topicSchemaType>) => updateTopic(data._id, values, session?.user?.token),
+        (values: Partial<topicSchemaType>) => updateTopic(data.id || data._id, values, session?.user?.token),
         `topics-${data.syllabusId}`,
         () => toast.success("Topic updated successfully")
     )

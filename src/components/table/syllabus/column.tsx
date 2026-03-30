@@ -62,8 +62,8 @@ export const getSyllabusColumns = (courseId: string): ColumnDef<Column>[] => [
       return (
         <CellAction
           updateForm={<SyllabusForm courseId={courseId} data={row.original} />}
-          id={row.original._id}
-          deletFn={() => mutate(row.original._id)}
+          id={row.original.id || row.original._id}
+          deletFn={() => mutate(row.original.id || row.original._id)}
           dltLoading={isPending}
           isSuccess={isSuccess}
         />

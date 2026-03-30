@@ -18,6 +18,19 @@ import { useVideoUpload } from "@/hooks/useUpload";
 import VideoUploader from "../global/videoUploader";
 import { ITopic } from "@/types/ITopic";
 
+const EMPTY_TOPIC: ITopic = {
+  id: "",
+  _id: "",
+  syllabusId: "",
+  courseId: "",
+  title: "",
+  videoUrl: "",
+  overview: "",
+  order: 0,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 interface Props {
   syllabusId: string;
   courseId: string;
@@ -25,9 +38,10 @@ interface Props {
 }
 
 const TopicForm = ({ syllabusId, courseId, data }: Props) => {
-  const { form, onFormSubmit, isSuccess, isPending } = data
-    ? useEditTopic(data)
-    : useCreateTopic(syllabusId, courseId);
+  const isEditMode = !!data;
+  const createHook = useCreateTopic(syllabusId, courseId);
+  const editHook = useEditTopic(data ?? EMPTY_TOPIC);
+  const { form, onFormSubmit, isSuccess, isPending } = isEditMode ? editHook : createHook;
   const { uploadVideo } = useVideoUpload();
   const ref = useRef<any>(null);
 
@@ -101,6 +115,7 @@ const TopicForm = ({ syllabusId, courseId, data }: Props) => {
                         min={0}
                         placeholder="1"
                         {...field}
+                        value={field.value ?? ""}
                         onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                       />
                     </FormControl>

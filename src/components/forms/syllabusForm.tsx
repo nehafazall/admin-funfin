@@ -18,15 +18,28 @@ import { useImageUpload } from "@/hooks/useUpload";
 import ImageUploader from "../global/imageUploader";
 import { ISyllabus } from "@/types/ISyllabus";
 
+const EMPTY_SYLLABUS: ISyllabus = {
+  id: "",
+  _id: "",
+  courseId: "",
+  title: "",
+  moduleLabel: "",
+  coverImage: undefined,
+  topics: [],
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 interface Props {
   courseId: string;
   data?: ISyllabus;
 }
 
 const SyllabusForm = ({ courseId, data }: Props) => {
-  const { form, onFormSubmit, isSuccess, isPending } = data
-    ? useEditSyllabus(data)
-    : useCreateSyllabus(courseId);
+  const isEditMode = !!data;
+  const createHook = useCreateSyllabus(courseId);
+  const editHook = useEditSyllabus(data ?? EMPTY_SYLLABUS);
+  const { form, onFormSubmit, isSuccess, isPending } = isEditMode ? editHook : createHook;
   const { uploadImage } = useImageUpload();
   const ref = useRef<any>(null);
 

@@ -79,11 +79,11 @@ const CurriculumSection = ({ course }: CurriculumProps) => {
             <div className="space-y-2">
               {syllabuses.map((s) => (
                 <button
-                  key={s._id}
+                  key={s.id || s._id}
                   type="button"
                   onClick={() => setSelectedSyllabus(s)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg border text-left transition-colors ${
-                    selectedSyllabus?._id === s._id
+                    (selectedSyllabus?.id || selectedSyllabus?._id) === (s.id || s._id)
                       ? "border-primary bg-primary/10"
                       : "border-border hover:border-primary/50 hover:bg-muted/50"
                   }`}
@@ -120,7 +120,7 @@ const CurriculumSection = ({ course }: CurriculumProps) => {
                   <Plus className="h-3.5 w-3.5 mr-1" /> Add Topic
                 </Button>
               </div>
-              <TopicList syllabusId={selectedSyllabus._id} courseId={course.id} />
+              <TopicList syllabusId={selectedSyllabus.id || selectedSyllabus._id} courseId={course.id} />
             </>
           ) : (
             <div className="flex flex-col items-center justify-center h-full min-h-[240px] border border-dashed rounded-lg text-center">
@@ -152,7 +152,7 @@ const CurriculumSection = ({ course }: CurriculumProps) => {
           open={createTopicOpen}
           closeFn={() => setCreateTopicOpen(false)}
         >
-          <TopicForm syllabusId={selectedSyllabus._id} courseId={course.id} />
+          <TopicForm syllabusId={selectedSyllabus.id || selectedSyllabus._id} courseId={course.id} />
         </SheetReuse>
       )}
     </>

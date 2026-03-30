@@ -5,7 +5,12 @@ import { courseSchemaType } from "@/schema/courseSchema";
 
 export const createCourse = async (data: courseSchemaType, token: string) => {
     if (!token) throw new Error("Unauthorized");
-    const response = await AxiosInstance(token).post(COURSES_URL, data);
+    const payload = {
+        ...data,
+        photo: data.photo || undefined,
+        videoUrl: data.videoUrl || undefined,
+    };
+    const response = await AxiosInstance(token).post(COURSES_URL, payload);
     return response.data;
 }
 
@@ -23,7 +28,12 @@ export const getCourseById = async (id: string, token: string) => {
 
 export const updateCourse = async (id: string, data: courseSchemaType, token: string) => {
     if (!token) throw new Error("Unauthorized");
-    const response = await AxiosInstance(token).put(`${COURSES_URL}/${id}`, data);
+    const payload = {
+        ...data,
+        photo: data.photo || undefined,
+        videoUrl: data.videoUrl || undefined,
+    };
+    const response = await AxiosInstance(token).patch(`${COURSES_URL}/${id}`, payload);
     return response.data;
 }
 
