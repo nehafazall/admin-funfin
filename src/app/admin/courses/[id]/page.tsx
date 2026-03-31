@@ -216,7 +216,7 @@ export default function CourseDetailPage() {
         open={editOpen}
         closeFn={() => setEditOpen(false)}
       >
-        <CourseForm data={course as any} />
+        <CourseForm data={{ ...course, _id: course.id } as any} />
       </SheetReuse>
 
       <PageContainer scrollable>

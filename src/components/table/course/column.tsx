@@ -92,7 +92,7 @@ export const columns: ColumnDef<Column>[] = [
       const { mutate, isPending, isSuccess } = useDeleteCourse();
       return (
         <CellAction
-          updateForm={<CourseForm data={row.original as any} />}
+          updateForm={<CourseForm data={{ ...row.original, _id: row.original.id } as any} />}
           info={<CourseContent course={row.original} />}
           id={row.original.id}
           deletFn={() => mutate(row.original.id)}
