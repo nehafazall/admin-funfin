@@ -9,7 +9,7 @@ const nextConfig = {
         ignoreDuringBuilds: false,
     },
     reactStrictMode: true,
-    images: {
+    experimental: {
         optimizePackageImports: ["@heroui/react"],
     },
 };
