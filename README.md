@@ -29,8 +29,29 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment (Vercel + GitHub Actions)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This app is intended to be deployed by **Vercel Git Integration**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `main` push: Vercel automatically triggers production deploy.
+- Pull request: Vercel automatically creates preview deployment.
+- GitHub Actions is used for CI quality gates (lint and build), not VPS/SSH deployment.
+
+### Workflows
+
+- `.github/workflows/ci.yml`
+	- Runs on PR and push to `main`
+	- Installs deps with `npm ci --legacy-peer-deps`
+	- Runs `npx eslint src`
+	- Runs `npm run build`
+
+- `.github/workflows/security-audit.yml`
+	- Weekly audit
+	- Runs `npm audit --audit-level=high`
+
+### Vercel checklist
+
+- Repository is connected to the correct Vercel project.
+- Production branch is `main` in Vercel settings.
+- Required environment variables are set in Vercel (Production/Preview as needed).
+- Framework preset is Next.js and root directory points to this app if using monorepo setup.

@@ -216,9 +216,11 @@ export default function AppSidebar() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem disabled>
+                  <DropdownMenuItem asChild>
+                    <Link href="/admin/profile">
                     <BadgeCheck />
                     Account
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem disabled>
                     <CreditCard />
