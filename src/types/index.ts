@@ -65,3 +65,6 @@ export interface DashboardStatsResponseApi {
   message: string;
   data: DashboardStatsResponse;
 }
+
+export * from "./IFuncoin";
+export * from "./IAdminAuth";

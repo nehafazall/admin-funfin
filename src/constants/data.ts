@@ -18,6 +18,13 @@ export const superAdminNavItems: NavItem[] = [
     isActive: false,
   },
   {
+    title: 'Funcoin',
+    url: '/admin/funcoin',
+    icon: 'billing',
+    shortcut: ['f', 'f'],
+    isActive: false,
+  },
+  {
     title: 'Admins',
     url: '/admin/admins',
     icon: 'employee',
@@ -40,6 +47,13 @@ export const adminNavItems: NavItem[] = [
     url: '/admin/courses',
     icon: 'class',
     shortcut: ['c', 'c'],
+    isActive: false,
+  },
+  {
+    title: 'Funcoin',
+    url: '/admin/funcoin',
+    icon: 'billing',
+    shortcut: ['f', 'f'],
     isActive: false,
   },
 ];

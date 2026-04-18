@@ -47,6 +47,16 @@ export default function LoginPage({ className }: { className?: string }) {
               Sign Up
             </a>
           </div>
+
+            <div className="text-center text-xs text-muted-foreground">
+              First time setup?{" "}
+              <a
+                href="/auth/bootstrap-superadmin"
+                className="text-primary font-medium hover:underline"
+              >
+                Bootstrap Superadmin
+              </a>
+            </div>
         </div>
       </div>
     </div>
