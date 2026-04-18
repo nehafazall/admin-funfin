@@ -31,7 +31,7 @@ import {
   FuncoinTransaction,
 } from "@/types/IFuncoin";
 import { useSession } from "next-auth/react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const defaultPricing: FuncoinPricing = {
@@ -78,7 +78,7 @@ export default function FuncoinPage() {
     [categories, newTransaction.kind]
   );
 
-  const loadAll = async () => {
+  const loadAll = useCallback(async () => {
     if (!token) return;
     setLoading(true);
 
@@ -100,7 +100,7 @@ export default function FuncoinPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   const loadPurchases = async () => {
     if (!token) return;
@@ -123,7 +123,7 @@ export default function FuncoinPage() {
 
   useEffect(() => {
     loadAll();
-  }, [token]);
+  }, [loadAll]);
 
   const onUpdatePrice = async () => {
     if (!token) return;

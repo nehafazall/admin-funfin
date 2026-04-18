@@ -10,6 +10,20 @@ import { Badge } from "@/components/ui/badge";
 
 export type Column = ISyllabus;
 
+const SyllabusActionsCell = ({ courseId, syllabus }: { courseId: string; syllabus: Column }) => {
+  const { mutate, isPending, isSuccess } = useDeleteSyllabus(courseId);
+
+  return (
+    <CellAction
+      updateForm={<SyllabusForm courseId={courseId} data={syllabus} />}
+      id={syllabus.id || syllabus._id}
+      deletFn={() => mutate(syllabus.id || syllabus._id)}
+      dltLoading={isPending}
+      isSuccess={isSuccess}
+    />
+  );
+};
+
 export const getSyllabusColumns = (courseId: string): ColumnDef<Column>[] => [
   {
     accessorKey: "rowNumber",
@@ -57,17 +71,6 @@ export const getSyllabusColumns = (courseId: string): ColumnDef<Column>[] => [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending, isSuccess } = useDeleteSyllabus(courseId);
-      return (
-        <CellAction
-          updateForm={<SyllabusForm courseId={courseId} data={row.original} />}
-          id={row.original.id || row.original._id}
-          deletFn={() => mutate(row.original.id || row.original._id)}
-          dltLoading={isPending}
-          isSuccess={isSuccess}
-        />
-      );
-    },
+    cell: ({ row }) => <SyllabusActionsCell courseId={courseId} syllabus={row.original} />,
   },
 ];

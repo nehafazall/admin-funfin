@@ -30,6 +30,20 @@ import { useDeleteStudent } from "@/hooks/useStudents";
 // import { useDeleteBranch } from "@/hooks/useBranch";
 export type Cloumn = IStudent;
 
+const StudentActionsCell = ({ student }: { student: Cloumn }) => {
+  const { mutate, isPending, isSuccess } = useDeleteStudent();
+
+  return (
+    <CellAction
+      updateForm={<StudentForm data={student} />}
+      id={student._id}
+      deletFn={() => mutate(student._id)}
+      dltLoading={isPending}
+      isSuccess={isSuccess}
+    />
+  );
+};
+
 export const columns: ColumnDef<Cloumn>[] = [
   {
     accessorKey: "rowNumber",
@@ -92,7 +106,7 @@ export const columns: ColumnDef<Cloumn>[] = [
                 {/* <h1 className="text-sm font-medium">Status</h1> */}
               </div>
               {row.original?.attendance?.map((attendance: any, index: number) => (
-                <div className="flex justify-between items-center">
+                <div key={`${attendance?._id ?? "attendance"}-${index}`} className="flex justify-between items-center">
                   <p className="text-xs font-medium">{index + 1}</p>
                   <p className="text-xs font-medium">
                     {attendance?.courseId?.name}
@@ -165,23 +179,12 @@ export const columns: ColumnDef<Cloumn>[] = [
     accessorKey: "adminId",
     header: "Admin",
     cell: ({ row }) => (
-      <div className="text-center">{row.original?.adminId?.name || "N/A"}</div>
+      <div className="text-center">{row.original?.adminId?.fullName || "N/A"}</div>
     ),
   },
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending, isSuccess } = useDeleteStudent();
-      return (
-        <CellAction
-          updateForm={<StudentForm data={row.original as any} />}
-          id={row.original._id}
-          deletFn={() => mutate(row.original._id)}
-          dltLoading={isPending}
-          isSuccess={isSuccess}
-        />
-      );
-    },
+    cell: ({ row }) => <StudentActionsCell student={row.original} />,
   },
 ];

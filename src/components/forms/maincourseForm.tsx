@@ -38,21 +38,20 @@ import { GoCommentDiscussion } from "react-icons/go";
 import ImageUploader from "../global/imageUploader";
 import { FaClock, FaEnvelope, FaVideo } from "react-icons/fa6";
 import { Switch } from "../ui/switch";
-import { languages } from "@/constants/data";
 // import { ICompany } from "@/types/ICompany";
 interface Props {
   data?: maincourseSchemaType;
 }
 
-const MainCourseForm = ({ data }: Props) => {
-  // const hook = id ? useBranch({ id }) : useBranch({});
-  const {
-    form,
-    onFormSubmit,
-    isSuccess,
-    isPending,
-    types,
-  } = data ? useEditMainCourse(data) : useCreateMainCourse();
+type MainCourseFormInnerProps = {
+  data?: maincourseSchemaType;
+  form: ReturnType<typeof useCreateMainCourse>["form"];
+  onFormSubmit: ReturnType<typeof useCreateMainCourse>["onFormSubmit"];
+  isSuccess: boolean;
+  isPending: boolean;
+};
+
+const MainCourseFormInner = ({ data, form, onFormSubmit, isSuccess, isPending }: MainCourseFormInnerProps) => {
   const ref = useRef<any>(null);
 
   useEffect(() => {
@@ -96,12 +95,13 @@ const MainCourseForm = ({ data }: Props) => {
                     <FormControl>
                       <div className="relative">
                         <ImageUploader
-                          initialImage={
-                            data?.image &&
-                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/${field.value}`
+                          value={
+                            data?.image && field.value
+                              ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/${field.value}`
+                              : undefined
                           }
-                          onImageSelected={(url) => {
-                            field.onChange(url as any);
+                          onChange={(url: string | null) => {
+                            field.onChange(url ?? "");
                           }}
                         />
                       </div>
@@ -152,4 +152,33 @@ const MainCourseForm = ({ data }: Props) => {
   );
 };
 
+const CreateMainCourseForm = () => {
+  const { form, onFormSubmit, isSuccess, isPending } = useCreateMainCourse();
+  return (
+    <MainCourseFormInner
+      form={form}
+      onFormSubmit={onFormSubmit}
+      isSuccess={isSuccess}
+      isPending={isPending}
+    />
+  );
+};
+
+const EditMainCourseForm = ({ data }: { data: maincourseSchemaType }) => {
+  const { form, onFormSubmit, isSuccess, isPending } = useEditMainCourse(data);
+  return (
+    <MainCourseFormInner
+      data={data}
+      form={form}
+      onFormSubmit={onFormSubmit}
+      isSuccess={isSuccess}
+      isPending={isPending}
+    />
+  );
+};
+
+const MainCourseForm = ({ data }: Props) => {
+  if (data) return <EditMainCourseForm data={data} />;
+  return <CreateMainCourseForm />;
+};
 export default MainCourseForm;

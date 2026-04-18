@@ -10,6 +10,20 @@ import UserForm from "@/components/forms/userForm";
 
 export type Column = IUser;
 
+const UserActionsCell = ({ user }: { user: Column }) => {
+  const { mutate, isPending, isSuccess } = useDeleteUser();
+
+  return (
+    <CellAction
+      updateForm={<UserForm data={user} />}
+      id={user._id}
+      deletFn={() => mutate(user._id)}
+      dltLoading={isPending}
+      isSuccess={isSuccess}
+    />
+  );
+};
+
 export const columns: ColumnDef<Column>[] = [
   {
     accessorKey: "rowNumber",
@@ -74,17 +88,6 @@ export const columns: ColumnDef<Column>[] = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending, isSuccess } = useDeleteUser();
-      return (
-        <CellAction
-          updateForm={<UserForm data={row.original} />}
-          id={row.original._id}
-          deletFn={() => mutate(row.original._id)}
-          dltLoading={isPending}
-          isSuccess={isSuccess}
-        />
-      );
-    },
+    cell: ({ row }) => <UserActionsCell user={row.original} />,
   },
 ];

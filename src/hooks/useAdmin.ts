@@ -67,7 +67,7 @@ export const useEditUser = (data: IUser) => {
 
     useEffect(() => {
         form.reset(data as any)
-    }, [data])
+    }, [data, form])
 
     return { form, isPending, onFormSubmit, isSuccess }
 }

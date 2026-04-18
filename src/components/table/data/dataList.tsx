@@ -15,7 +15,7 @@ const SchemaList = (props: Props) => {
 
   const { data, isPending } = useData();
 
-  if (isPending) return <DataTableSkeleton />;
+  if (isPending) return <DataTableSkeleton columnCount={4} />;
 
   if (data) {
     const schemas = data as any;

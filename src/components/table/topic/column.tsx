@@ -9,6 +9,28 @@ import TopicForm from "@/components/forms/topicForm";
 
 export type Column = ITopic;
 
+const TopicActionsCell = ({
+  syllabusId,
+  courseId,
+  topic,
+}: {
+  syllabusId: string;
+  courseId: string;
+  topic: Column;
+}) => {
+  const { mutate, isPending, isSuccess } = useDeleteTopic(syllabusId);
+
+  return (
+    <CellAction
+      updateForm={<TopicForm syllabusId={syllabusId} courseId={courseId} data={topic} />}
+      id={topic.id || topic._id}
+      deletFn={() => mutate(topic.id || topic._id)}
+      dltLoading={isPending}
+      isSuccess={isSuccess}
+    />
+  );
+};
+
 export const getTopicColumns = (syllabusId: string, courseId: string): ColumnDef<Column>[] => [
   {
     accessorKey: "rowNumber",
@@ -76,23 +98,8 @@ export const getTopicColumns = (syllabusId: string, courseId: string): ColumnDef
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending, isSuccess } = useDeleteTopic(syllabusId);
-      return (
-        <CellAction
-          updateForm={
-            <TopicForm
-              syllabusId={syllabusId}
-              courseId={courseId}
-              data={row.original}
-            />
-          }
-          id={row.original.id || row.original._id}
-          deletFn={() => mutate(row.original.id || row.original._id)}
-          dltLoading={isPending}
-          isSuccess={isSuccess}
-        />
-      );
-    },
+    cell: ({ row }) => (
+      <TopicActionsCell syllabusId={syllabusId} courseId={courseId} topic={row.original} />
+    ),
   },
 ];
