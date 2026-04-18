@@ -3,8 +3,6 @@ name: Admin Frontend CI
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -37,14 +35,3 @@ jobs:
 
       - name: Build Next App
         run: npm run build
-
-  vercel-note:
-    name: Vercel Deployment Mode
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - name: Deployment info
-        run: |
-          echo "This repository is configured for Vercel Git Integration deployments."
-          echo "No SSH/VPS deployment is executed from GitHub Actions."
-          echo "After CI passes, Vercel will automatically build/deploy from main."

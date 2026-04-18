@@ -3,9 +3,12 @@ import { NextResponse } from "next/server"
 import { withAuth } from "next-auth/middleware";
 
 const superAdminRoutes = ["/admin/dashboard", "/admin/courses", "/admin/admins"]
-const adminRoutes = ["/admin/dashboard", "/admin/courses"]
-const counselorRoutes = ["/admin/dashboard"]
-const mentorRoutes = ["/admin/dashboard"]
+const adminRoutes = ["/admin/dashboard", "/admin/courses", "/admin/funcoin"]
+const counselorRoutes = ["/admin/dashboard", "/admin/profile"]
+const mentorRoutes = ["/admin/dashboard", "/admin/profile"]
+
+// Shared pages for all authenticated roles.
+const sharedAdminRoutes = ["/admin/profile", "/admin/funcoin"]
 
 export default withAuth(
   async function middleware(req) {
@@ -13,7 +16,6 @@ export default withAuth(
     const token = req.nextauth.token;
     const isAuthenticated = !!token;
     const role = token?.role;
-console.log("Middleware - Path:", path, "Authenticated:", isAuthenticated, "Role:", role)
     if (path.startsWith("/auth")) {
       if (isAuthenticated) {
         return NextResponse.redirect(new URL("/admin/dashboard", req.url))
@@ -25,6 +27,11 @@ console.log("Middleware - Path:", path, "Authenticated:", isAuthenticated, "Role
       if (!isAuthenticated) {
         return NextResponse.redirect(new URL("/auth/login", req.url))
       }
+
+      if (sharedAdminRoutes.some(r => path.startsWith(r))) {
+        return NextResponse.next()
+      }
+
       if (role === "superadmin" && !superAdminRoutes.some(r => path.startsWith(r))) {
         return NextResponse.redirect(new URL("/admin/dashboard", req.url))
       }
