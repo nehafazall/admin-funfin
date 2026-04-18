@@ -29,6 +29,20 @@ import { useDeleteMainCourse } from "@/hooks/useMaincourse";
 // import { useDeleteBranch } from "@/hooks/useBranch";
 export type Cloumn = IMainCourse;
 
+const MainCourseActionsCell = ({ mainCourse }: { mainCourse: Cloumn }) => {
+  const { mutate, isPending, isSuccess } = useDeleteMainCourse();
+
+  return (
+    <CellAction
+      updateForm={<MainCourseForm data={mainCourse} />}
+      id={mainCourse._id}
+      deletFn={() => mutate(mainCourse._id)}
+      dltLoading={isPending}
+      isSuccess={isSuccess}
+    />
+  );
+};
+
 export const columns: ColumnDef<Cloumn>[] = [
   {
     accessorKey: "rowNumber",
@@ -73,17 +87,6 @@ export const columns: ColumnDef<Cloumn>[] = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending, isSuccess } = useDeleteMainCourse();
-      return (
-        <CellAction
-          updateForm={<MainCourseForm data={row.original as any} />}
-          id={row.original._id}
-          deletFn={() => mutate(row.original._id)}
-          dltLoading={isPending}
-          isSuccess={isSuccess}
-        />
-      );
-    },
+    cell: ({ row }) => <MainCourseActionsCell mainCourse={row.original} />,
   },
 ];

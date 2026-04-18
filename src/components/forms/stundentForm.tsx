@@ -39,11 +39,15 @@ interface Props {
   data?: courseSchemaType;
 }
 
-const StudentForm = ({ data }: Props) => {
-  // const hook = id ? useBranch({ id }) : useBranch({});
-  const { form, onFormSubmit, isSuccess, isPending } = data
-    ? useEditStudent(data)
-    : useCreateStudent();
+type StudentFormInnerProps = {
+  data?: courseSchemaType;
+  form: ReturnType<typeof useCreateStudent>["form"];
+  onFormSubmit: ReturnType<typeof useCreateStudent>["onFormSubmit"];
+  isSuccess: boolean;
+  isPending: boolean;
+};
+
+const StudentFormInner = ({ data, form, onFormSubmit, isSuccess, isPending }: StudentFormInnerProps) => {
   const ref = useRef<any>(null);
   const { courses } = useMainCourse();
 
@@ -54,7 +58,7 @@ const StudentForm = ({ data }: Props) => {
   }, [isSuccess]);
   <SheetClose ref={ref} />;
   const { data: session } = useSession();
-  const isSuperAdmin = session?.user?.role === "superAdmin";
+  const isSuperAdmin = session?.user?.role === "superadmin";
   return (
     <>
       <ScrollArea className="h-[calc(100vh-100px)]">
@@ -261,6 +265,36 @@ const StudentForm = ({ data }: Props) => {
       </ScrollArea>
     </>
   );
+};
+
+const CreateStudentForm = () => {
+  const { form, onFormSubmit, isSuccess, isPending } = useCreateStudent();
+  return (
+    <StudentFormInner
+      form={form}
+      onFormSubmit={onFormSubmit}
+      isSuccess={isSuccess}
+      isPending={isPending}
+    />
+  );
+};
+
+const EditStudentForm = ({ data }: { data: courseSchemaType }) => {
+  const { form, onFormSubmit, isSuccess, isPending } = useEditStudent(data);
+  return (
+    <StudentFormInner
+      data={data}
+      form={form}
+      onFormSubmit={onFormSubmit}
+      isSuccess={isSuccess}
+      isPending={isPending}
+    />
+  );
+};
+
+const StudentForm = ({ data }: Props) => {
+  if (data) return <EditStudentForm data={data} />;
+  return <CreateStudentForm />;
 };
 
 export default StudentForm;

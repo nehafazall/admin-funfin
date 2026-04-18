@@ -34,7 +34,7 @@ export function SignupForm() {
     isSuccess,
     form,
     setValue,
-  } = useAuth("signup");
+  } = useAuth();
   const [err, seterr] = useState<string | null>(null);
 
   useEffect(() => {

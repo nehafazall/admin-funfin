@@ -13,6 +13,21 @@ import Link from "next/link";
 
 export type Column = ICourse;
 
+const CourseActionsCell = ({ course }: { course: Column }) => {
+  const { mutate, isPending, isSuccess } = useDeleteCourse();
+
+  return (
+    <CellAction
+      updateForm={<CourseForm data={{ ...course, _id: course.id } as ICourse & { _id: string }} />}
+      info={<CourseContent course={course} />}
+      id={course.id}
+      deletFn={() => mutate(course.id)}
+      dltLoading={isPending}
+      isSuccess={isSuccess}
+    />
+  );
+};
+
 export const columns: ColumnDef<Column>[] = [
   {
     accessorKey: "rowNumber",
@@ -88,18 +103,6 @@ export const columns: ColumnDef<Column>[] = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending, isSuccess } = useDeleteCourse();
-      return (
-        <CellAction
-          updateForm={<CourseForm data={{ ...row.original, _id: row.original.id } as any} />}
-          info={<CourseContent course={row.original} />}
-          id={row.original.id}
-          deletFn={() => mutate(row.original.id)}
-          dltLoading={isPending}
-          isSuccess={isSuccess}
-        />
-      );
-    },
+    cell: ({ row }) => <CourseActionsCell course={row.original} />,
   },
 ];

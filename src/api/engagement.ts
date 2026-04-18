@@ -69,8 +69,6 @@ export const updateMission = async (
   if (!token) throw new Error("Unauthorized")
   const response = await AxiosInstance(token).patch(
     `${GAMIFICATION_URL}/missions/${missionId}`,
-import { ERROR_MESSAGES } from "@/constants/messages"
-import { parseApiError } from "@/utils/api-error"
     payload
   )
   return response.data.mission || response.data

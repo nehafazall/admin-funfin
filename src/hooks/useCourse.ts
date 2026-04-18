@@ -79,7 +79,7 @@ export const useEditCourse = (data: courseSchemaType) => {
 
     useEffect(() => {
         form.reset(data)
-    }, [data])
+    }, [data, form])
 
     return { form, isPending, onFormSubmit, isSuccess }
 }

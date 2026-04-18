@@ -48,8 +48,7 @@ export const useCreateTopic = (syllabusId: string, courseId: string) => {
         (data: topicSchemaType) => createTopic(data, session?.user?.token),
         `topics-${syllabusId}`
     )
-    const { form, onFormSubmit,errors } = useZodForm(topicSchema, mutate, defaultValues)
-console.log(errors)
+    const { form, onFormSubmit } = useZodForm(topicSchema, mutate, defaultValues)
     return { form, isPending, onFormSubmit, isSuccess }
 }
 
@@ -70,7 +69,7 @@ export const useEditTopic = (data: ITopic) => {
 
     useEffect(() => {
         form.reset(data as any)
-    }, [data])
+    }, [data, form])
 
     return { form, isPending, onFormSubmit, isSuccess }
 }

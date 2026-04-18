@@ -70,7 +70,7 @@ export const useEditSyllabus = (data: ISyllabus) => {
 
     useEffect(() => {
         form.reset(data as any)
-    }, [data])
+    }, [data, form])
 
     return { form, isPending, onFormSubmit, isSuccess }
 }

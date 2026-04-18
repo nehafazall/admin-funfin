@@ -120,7 +120,7 @@ export function CalendarHeader({
         </Select>
         <Select
           onValueChange={(value) => {
-            setSelectedCourse(value);
+            (setSelectedCourse as (value: string) => void)(value);
           }}
         >
           <SelectTrigger className="bg-accent/60">

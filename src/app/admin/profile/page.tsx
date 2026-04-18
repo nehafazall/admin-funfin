@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getAdminProfile } from "@/api/auth";
 import { AdminProfile } from "@/types/IAdminAuth";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RefreshCcw, ShieldCheck, UserCircle2 } from "lucide-react";
 
@@ -21,7 +21,7 @@ export default function AdminProfilePage() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchProfile = async (isRefresh = false) => {
+  const fetchProfile = useCallback(async (isRefresh = false) => {
     if (!token) return;
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
@@ -35,11 +35,11 @@ export default function AdminProfilePage() {
       setLoading(false);
       setRefreshing(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchProfile();
-  }, [token]);
+  }, [fetchProfile]);
 
   return (
     <PageContainer scrollable>

@@ -1,11 +1,5 @@
 "use client";
-import {
-  superAdminNavItems,
-  adminNavItems,
-  customerServiceNavItems,
-  userNavItems,
-} from "@/constants/data";
-import {
+import { userNavItems } from "@/constants/data";import {
   KBarAnimator,
   KBarPortal,
   KBarPositioner,

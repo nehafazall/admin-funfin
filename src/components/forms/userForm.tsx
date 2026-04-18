@@ -31,10 +31,15 @@ interface Props {
   data?: IUser;
 }
 
-const UserForm = ({ data }: Props) => {
-  const { form, onFormSubmit, isSuccess, isPending } = data
-    ? useEditUser(data)
-    : useCreateUser();
+type UserFormInnerProps = {
+  data?: IUser;
+  form: ReturnType<typeof useCreateUser>["form"];
+  onFormSubmit: ReturnType<typeof useCreateUser>["onFormSubmit"];
+  isSuccess: boolean;
+  isPending: boolean;
+};
+
+const UserFormInner = ({ data, form, onFormSubmit, isSuccess, isPending }: UserFormInnerProps) => {
   const ref = useRef<any>(null);
 
   useEffect(() => {
@@ -155,6 +160,36 @@ const UserForm = ({ data }: Props) => {
       </ScrollArea>
     </>
   );
+};
+
+const CreateUserForm = () => {
+  const { form, onFormSubmit, isSuccess, isPending } = useCreateUser();
+  return (
+    <UserFormInner
+      form={form}
+      onFormSubmit={onFormSubmit}
+      isSuccess={isSuccess}
+      isPending={isPending}
+    />
+  );
+};
+
+const EditUserForm = ({ data }: { data: IUser }) => {
+  const { form, onFormSubmit, isSuccess, isPending } = useEditUser(data);
+  return (
+    <UserFormInner
+      data={data}
+      form={form}
+      onFormSubmit={onFormSubmit}
+      isSuccess={isSuccess}
+      isPending={isPending}
+    />
+  );
+};
+
+const UserForm = ({ data }: Props) => {
+  if (data) return <EditUserForm data={data} />;
+  return <CreateUserForm />;
 };
 
 export default UserForm;
