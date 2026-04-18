@@ -23,7 +23,7 @@ export const createAdmin = async (data: adminSchemaType, token: string) => {
 
 export const updateAdmin = async (id: string, data: Partial<adminSchemaType>, token: string) => {
     if (!token) throw new Error("Unauthorized");
-    const response = await AxiosInstance(token).put(`${ADMINS_URL}/${id}`, data);
+    const response = await AxiosInstance(token).patch(`${ADMINS_URL}/${id}`, data);
     return response.data;
 }
 

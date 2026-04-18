@@ -62,7 +62,7 @@ export default function ChallengesPage() {
 
     try {
       const response = await getChallenges(token)
-      setChallenges(response.challenges || [])
+      setChallenges(response.challenges || response.items || [])
     } catch (error) {
       toast.error((error as Error).message || "Failed to load challenges")
     } finally {
@@ -181,6 +181,7 @@ export default function ChallengesPage() {
       setAssignDialogOpen(false)
       setChallengeDate("")
       setAssigningId(null)
+      await loadChallenges(true)
     } catch (error) {
       toast.error((error as Error).message || "Failed to assign challenge")
     } finally {
@@ -386,6 +387,7 @@ export default function ChallengesPage() {
                                 assignDialogOpen && assigningId === challenge.id
                               }
                               onOpenChange={(open) => {
+                                setAssignDialogOpen(open)
                                 if (!open) {
                                   setAssigningId(null)
                                   setChallengeDate("")
@@ -396,7 +398,10 @@ export default function ChallengesPage() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => setAssigningId(challenge.id)}
+                                  onClick={() => {
+                                    setAssigningId(challenge.id)
+                                    setAssignDialogOpen(true)
+                                  }}
                                   title="Assign to date"
                                 >
                                   <Clock className="h-4 w-4" />

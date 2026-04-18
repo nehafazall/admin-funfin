@@ -27,6 +27,7 @@ export type MissionType = "daily" | "weekly" | "special"
 
 export interface Mission {
   id: string
+  code: string
   title: string
   description?: string | null
   missionType: MissionType
@@ -38,8 +39,9 @@ export interface Mission {
 }
 
 export interface MissionCreateInput {
+  code: string
   title: string
-  description?: string
+  description: string
   missionType: MissionType
   rewardCoins: number
   targetCount: number
@@ -66,11 +68,12 @@ export interface DailyChallenge {
   question: string
   options: string[]
   correctOptionIndex: number
+  challengeDate?: string | null
   explanation?: string | null
   rewardCoins: number
   isActive: boolean
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface ChallengCreateInput {
@@ -92,7 +95,8 @@ export interface ChallengeUpdateInput {
 }
 
 export interface ChallengeListResponse {
-  challenges: DailyChallenge[]
+  challenges?: DailyChallenge[]
+  items?: DailyChallenge[]
   total: number
 }
 
