@@ -36,6 +36,14 @@ const AxiosInstance = (token?: string) => {
   instance.interceptors.response.use(
     (response) => response,
     async (error) => {
+      console.error("[API Error]", {
+        method: error?.config?.method,
+        url: error?.config?.url,
+        status: error?.response?.status,
+        data: error?.response?.data,
+        message: error?.message,
+      });
+
       if (error.response?.status === 401 && !isSigningOut) {
         isSigningOut = true;
         await signOut({ callbackUrl: "/auth/login", redirect: true });
