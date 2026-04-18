@@ -25,6 +25,57 @@ export const superAdminNavItems: NavItem[] = [
     isActive: false,
   },
   {
+    title: 'Gamification',
+    url: '/admin/gamification',
+    icon: 'category',
+    shortcut: ['g', 'g'],
+    isActive: false,
+    items: [
+      {
+        title: 'Overview',
+        url: '/admin/gamification',
+        icon: 'dashboard',
+        isActive: false,
+      },
+      {
+        title: 'Spin Configuration',
+        url: '/admin/gamification/spin',
+        icon: 'settings',
+        isActive: false,
+      },
+      {
+        title: 'Missions',
+        url: '/admin/gamification/missions',
+        icon: 'brand',
+        isActive: false,
+      },
+      {
+        title: 'Challenges',
+        url: '/admin/gamification/challenges',
+        icon: 'help',
+        isActive: false,
+      },
+      {
+        title: 'Badges',
+        url: '/admin/gamification/badges',
+        icon: 'check',
+        isActive: false,
+      },
+      {
+        title: 'Titles',
+        url: '/admin/gamification/titles',
+        icon: 'book',
+        isActive: false,
+      },
+      {
+        title: 'Notifications',
+        url: '/admin/gamification/notifications',
+        icon: 'chat',
+        isActive: false,
+      },
+    ]
+  },
+  {
     title: 'Admins',
     url: '/admin/admins',
     icon: 'employee',
@@ -55,6 +106,57 @@ export const adminNavItems: NavItem[] = [
     icon: 'billing',
     shortcut: ['f', 'f'],
     isActive: false,
+  },
+  {
+    title: 'Gamification',
+    url: '/admin/gamification',
+    icon: 'category',
+    shortcut: ['g', 'g'],
+    isActive: false,
+    items: [
+      {
+        title: 'Overview',
+        url: '/admin/gamification',
+        icon: 'dashboard',
+        isActive: false,
+      },
+      {
+        title: 'Spin Configuration',
+        url: '/admin/gamification/spin',
+        icon: 'settings',
+        isActive: false,
+      },
+      {
+        title: 'Missions',
+        url: '/admin/gamification/missions',
+        icon: 'brand',
+        isActive: false,
+      },
+      {
+        title: 'Challenges',
+        url: '/admin/gamification/challenges',
+        icon: 'help',
+        isActive: false,
+      },
+      {
+        title: 'Badges',
+        url: '/admin/gamification/badges',
+        icon: 'check',
+        isActive: false,
+      },
+      {
+        title: 'Titles',
+        url: '/admin/gamification/titles',
+        icon: 'book',
+        isActive: false,
+      },
+      {
+        title: 'Notifications',
+        url: '/admin/gamification/notifications',
+        icon: 'chat',
+        isActive: false,
+      },
+    ]
   },
 ];
 
