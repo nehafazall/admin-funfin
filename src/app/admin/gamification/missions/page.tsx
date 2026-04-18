@@ -45,6 +45,7 @@ export default function MissionsPage() {
   const [saving, setSaving] = useState(false)
 
   const [formData, setFormData] = useState({
+    code: "",
     title: "",
     description: "",
     missionType: "daily" as MissionType,
@@ -76,6 +77,7 @@ export default function MissionsPage() {
     if (mission) {
       setEditingId(mission.id)
       setFormData({
+        code: mission.code,
         title: mission.title,
         description: mission.description || "",
         missionType: mission.missionType,
@@ -86,6 +88,7 @@ export default function MissionsPage() {
     } else {
       setEditingId(null)
       setFormData({
+        code: "",
         title: "",
         description: "",
         missionType: "daily",
@@ -102,6 +105,17 @@ export default function MissionsPage() {
 
     if (!formData.title.trim()) {
       toast.error("Title is required")
+      return
+    }
+
+    const missionCode = formData.code.trim()
+    if (!missionCode) {
+      toast.error("Mission code is required")
+      return
+    }
+
+    if (formData.description.trim().length < 2) {
+      toast.error("Description must be at least 2 characters")
       return
     }
 
@@ -125,7 +139,7 @@ export default function MissionsPage() {
           editingId,
           {
             title: formData.title.trim(),
-            description: formData.description || undefined,
+            description: formData.description.trim(),
             missionType: formData.missionType,
             rewardCoins: coins,
             targetCount: target,
@@ -138,8 +152,9 @@ export default function MissionsPage() {
       } else {
         const created = await createMission(
           {
+            code: missionCode,
             title: formData.title.trim(),
-            description: formData.description || undefined,
+            description: formData.description.trim(),
             missionType: formData.missionType,
             rewardCoins: coins,
             targetCount: target,
@@ -195,6 +210,18 @@ export default function MissionsPage() {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
+                    <Label htmlFor="mission-code">Mission Code</Label>
+                    <Input
+                      id="mission-code"
+                      value={formData.code}
+                      onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                      placeholder="e.g., daily_trade_5"
+                      className="mt-1"
+                      disabled={!!editingId}
+                    />
+                  </div>
+
+                  <div>
                     <Label htmlFor="mission-title">Title</Label>
                     <Input
                       id="mission-title"
@@ -211,7 +238,7 @@ export default function MissionsPage() {
                       id="mission-desc"
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Optional description"
+                      placeholder="Describe what the user needs to do"
                       className="mt-1 h-20"
                     />
                   </div>
@@ -325,6 +352,7 @@ export default function MissionsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead>Code</TableHead>
                       <TableHead>Title</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Reward</TableHead>
@@ -336,6 +364,7 @@ export default function MissionsPage() {
                   <TableBody>
                     {missions.map((mission) => (
                       <TableRow key={mission.id}>
+                        <TableCell className="font-mono text-sm">{mission.code}</TableCell>
                         <TableCell className="font-medium">{mission.title}</TableCell>
                         <TableCell>
                           <Badge variant="outline" className="capitalize">

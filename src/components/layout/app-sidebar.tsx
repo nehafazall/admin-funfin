@@ -101,31 +101,47 @@ export default function AppSidebar() {
               const Icon = item.icon
                 ? Icons[item.icon as keyof typeof Icons]
                 : Icons.logo;
+              const isParentActive =
+                pathname === item.url || pathname.startsWith(`${item.url}/`);
               return item?.items && item?.items?.length > 0 ? (
                 <Collapsible
                   key={item.title}
                   asChild
-                  defaultOpen={item.isActive}
+                  defaultOpen={item.isActive || isParentActive}
                   className="group/collapsible"
                 >
                   <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
+                    <div className="flex items-center gap-1">
                       <SidebarMenuButton
+                        asChild
                         tooltip={item.title}
-                        isActive={pathname === item.url}
+                        isActive={isParentActive}
+                        className="flex-1"
                       >
-                        {item.icon && <Icon />}
-                        <span>{item.title}</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        <Link href={item.url}>
+                          {item.icon && <Icon />}
+                          <span>{item.title}</span>
+                        </Link>
                       </SidebarMenuButton>
-                    </CollapsibleTrigger>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                          tooltip={`Toggle ${item.title}`}
+                          className="w-8 justify-center p-2"
+                        >
+                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                    </div>
                     <CollapsibleContent>
                       <SidebarMenuSub>
                         {item.items?.map((subItem: any) => (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={pathname === subItem.url}
+                              isActive={
+                                pathname === subItem.url ||
+                                pathname.startsWith(`${subItem.url}/`)
+                              }
                             >
                               <Link href={subItem.url}>
                                 <span>{subItem.title}</span>

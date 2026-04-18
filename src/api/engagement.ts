@@ -81,7 +81,10 @@ export const getChallenges = async (
 ): Promise<ChallengeListResponse> => {
   if (!token) throw new Error("Unauthorized")
   const response = await AxiosInstance(token).get(`${GAMIFICATION_URL}/challenges`, { params })
-  return response.data
+  return {
+    ...response.data,
+    challenges: response.data.challenges || response.data.items || [],
+  }
 }
 
 export const createChallenge = async (
